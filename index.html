@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Anti-cache para garantir que o HTML novo seja sempre baixado -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>A ZERO7 QUEBROU</title>
     <link rel="shortcut icon" href="./assets/favicon zero7.webp" type="image/x-icon">
 
@@ -17,7 +23,33 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="./css/index.css?sgerg35wqdqwd2qwd">
-    <link rel="stylesheet" href="./css/tarja-oferta.css?v=1">
+    <link rel="stylesheet" href="./css/tarja-oferta.css?v=2131">
+
+    <style>
+      /* VSL lock: trava scroll e esconde botão CTA da home até 75% do vídeo */
+      html.is-vsl-locked,
+      body.is-vsl-locked {
+        overflow: hidden !important;
+        height: 100%;
+        touch-action: none;
+      }
+      #home .z7-btnx {
+        transition: opacity .5s ease, transform .5s ease, visibility .5s;
+      }
+      body.is-vsl-locked #home .z7-btnx {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(12px);
+      }
+      #home .z7-btnx.is-vsl-revealed {
+        animation: vslBtnReveal .7s ease both;
+      }
+      @keyframes vslBtnReveal {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    </style>
 
     <script type="text/javascript" async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/bfe861c8-ab4c-47c1-9b5d-67742fbce12f-loader.js" ></script>
 
@@ -844,6 +876,8 @@
         duration: 1.1, // Define a duração do scroll (maior valor deixa mais lento)
         easing: (t) => 1 - Math.pow(1 - t, 4), // Função de easing para suavidade
       });
+      // expõe globalmente para o lock da VSL controlar
+      window.lenis = lenis;
 
       // Listen for the scroll event and log the event data
       lenis.on("scroll", (e) => {
@@ -910,11 +944,81 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <!-- VSL Hero — lazy load do YouTube ao tocar -->
+    <!-- VSL Hero — lazy load do YouTube + lock de scroll/CTA até 75% do vídeo -->
     <script>
       (function () {
+        var UNLOCK_AT = 0.75; // 75% do tempo total do vídeo
         var vsl = document.querySelector('#home .vsl');
         if (!vsl) return;
+
+        var html = document.documentElement;
+        var body = document.body;
+        var ctaBtn = document.querySelector('#home .z7-btnx');
+
+        var unlocked = false;
+        var ytPlayer = null;
+        var progressTimer = null;
+
+        function preventScroll(e) { e.preventDefault(); }
+        function preventScrollKeys(e) {
+          var keys = ['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' ','Spacebar'];
+          if (keys.indexOf(e.key) !== -1) e.preventDefault();
+        }
+
+        function lock() {
+          html.classList.add('is-vsl-locked');
+          body.classList.add('is-vsl-locked');
+          if (window.lenis && typeof window.lenis.stop === 'function') {
+            window.lenis.stop();
+          }
+          window.addEventListener('wheel', preventScroll, { passive: false });
+          window.addEventListener('touchmove', preventScroll, { passive: false });
+          window.addEventListener('keydown', preventScrollKeys, { passive: false });
+          // garante topo da página
+          window.scrollTo(0, 0);
+        }
+
+        function unlock() {
+          if (unlocked) return;
+          unlocked = true;
+          html.classList.remove('is-vsl-locked');
+          body.classList.remove('is-vsl-locked');
+          if (window.lenis && typeof window.lenis.start === 'function') {
+            window.lenis.start();
+          }
+          window.removeEventListener('wheel', preventScroll, { passive: false });
+          window.removeEventListener('touchmove', preventScroll, { passive: false });
+          window.removeEventListener('keydown', preventScrollKeys, { passive: false });
+          if (progressTimer) { clearInterval(progressTimer); progressTimer = null; }
+          if (ctaBtn) ctaBtn.classList.add('is-vsl-revealed');
+        }
+
+        function loadYouTubeAPI() {
+          return new Promise(function (resolve) {
+            if (window.YT && window.YT.Player) return resolve();
+            if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+              var tag = document.createElement('script');
+              tag.src = 'https://www.youtube.com/iframe_api';
+              document.head.appendChild(tag);
+            }
+            var prev = window.onYouTubeIframeAPIReady;
+            window.onYouTubeIframeAPIReady = function () {
+              if (typeof prev === 'function') prev();
+              resolve();
+            };
+          });
+        }
+
+        function startProgressTracking() {
+          progressTimer = setInterval(function () {
+            if (!ytPlayer || typeof ytPlayer.getDuration !== 'function') return;
+            var duration = ytPlayer.getDuration();
+            var current = ytPlayer.getCurrentTime();
+            if (duration > 0 && (current / duration) >= UNLOCK_AT) {
+              unlock();
+            }
+          }, 500);
+        }
 
         function activate() {
           if (vsl.classList.contains('is-playing')) return;
@@ -922,10 +1026,11 @@
           if (!id) return;
 
           var iframe = document.createElement('iframe');
+          iframe.id = 'vsl-yt-frame';
           iframe.className = 'vsl__iframe';
           iframe.src =
             'https://www.youtube-nocookie.com/embed/' + id +
-            '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+            '?autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1';
           iframe.title = 'Vídeo de apresentação';
           iframe.allow =
             'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
@@ -933,7 +1038,21 @@
 
           vsl.appendChild(iframe);
           vsl.classList.add('is-playing');
+
+          loadYouTubeAPI().then(function () {
+            ytPlayer = new YT.Player('vsl-yt-frame', {
+              events: {
+                onReady: function () { startProgressTracking(); },
+                onStateChange: function (e) {
+                  if (e.data === YT.PlayerState.ENDED) unlock();
+                }
+              }
+            });
+          });
         }
+
+        // aplica lock imediatamente
+        lock();
 
         vsl.addEventListener('click', activate);
         vsl.addEventListener('keydown', function (e) {
@@ -945,10 +1064,10 @@
       })();
     </script>
 
-    <script src="./script.js?v=6"></script>
+    <script src="./script.js?v=2131236"></script>
 
     <!-- GSAP + tarja de oferta -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="./tarja-oferta.js?v=1"></script>
+    <script src="./tarja-oferta.js?v=2131231"></script>
 </body>
 </html>
