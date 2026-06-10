@@ -751,4 +751,17 @@
   section#pacote .card.um .topic p span {
     font-size: 1.05rem;
   }
+
+  section#pacote .card.quatro .text {
+    grid-template-columns: 1fr;
+    padding-inline: 15%;
+  }
+
+  section#pacote .card.quatro .text h3 {
+    font-size: 4rem;
+  }
+
+  section#pacote .card.quatro .text p {
+    font-size: 2.2rem;
+  }
 }
