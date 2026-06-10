@@ -1,0 +1,432 @@
+/* =========================
+   SECTION LOGICA
+   ========================= */
+
+#logica {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  background:
+    /* glow azul topo esquerdo */
+    radial-gradient(720px 340px at 10% 8%, rgba(0, 128, 201, 0.22) 0%, rgba(0, 128, 201, 0.08) 32%, transparent 64%),
+
+    /* glow azul lateral direita */
+    radial-gradient(640px 320px at 92% 28%, rgba(29, 164, 243, 0.16) 0%, rgba(0, 128, 201, 0.05) 40%, transparent 72%),
+
+    /* glow profundo inferior */
+    radial-gradient(960px 420px at 50% 120%, rgba(0, 128, 201, 0.16) 0%, transparent 65%),
+
+    /* vinheta central sutil */
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0) 60%),
+
+    /* base */
+    linear-gradient(135deg, #01040A 0%, #020813 38%, #04111D 65%, #01040A 100%);
+
+  border-top: 1px solid rgba(0, 128, 201, 0.08);
+  border-bottom: 1px solid rgba(0, 128, 201, 0.08);
+}
+
+/* grid tech sutil */
+#logica::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+
+  background-image:
+    linear-gradient(rgba(0, 128, 201, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 128, 201, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+
+  mask-image: radial-gradient(ellipse at center, #000 0%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 0%, transparent 85%);
+}
+
+/* linha glow horizontal no topo */
+#logica::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  pointer-events: none;
+  z-index: 0;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 128, 201, 0.5) 30%,
+    rgba(29, 164, 243, 0.7) 50%,
+    rgba(0, 128, 201, 0.5) 70%,
+    transparent 100%
+  );
+}
+
+#logica > * {
+  position: relative;
+  z-index: 1;
+}
+
+#logica .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+#logica header {
+  margin-bottom: 0;
+}
+
+#logica header h2 {
+  color: #fff;
+  max-width: 80rem;
+  margin-inline: auto;
+  line-height: 1.25;
+}
+
+/* =========================
+   CARDS GRID
+========================= */
+
+#logica .logica-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  width: 100%;
+  margin-top: 4rem;
+}
+
+/* =========================
+   CARD
+========================= */
+
+#logica .logica-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  padding: 3rem 2.4rem;
+  border-radius: 1.6rem;
+  text-align: left;
+
+  background:
+    /* glow azul interno topo esquerdo */
+    radial-gradient(420px 220px at 0% 0%, rgba(0, 128, 201, 0.18) 0%, transparent 60%),
+
+    /* sheen diagonal */
+    linear-gradient(160deg, rgba(0, 128, 201, 0.06) 0%, rgba(2, 60, 131, 0.02) 50%, rgba(29, 164, 243, 0.05) 100%),
+
+    /* base translúcida */
+    linear-gradient(135deg, #060b14 0%, #08121e 100%);
+
+  border: 1px solid rgba(0, 128, 201, 0.18);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(0, 128, 201, 0.12),
+    0 12px 40px rgba(0, 0, 0, 0.4);
+
+  transition:
+    transform 500ms cubic-bezier(.16, 1, .3, 1),
+    border-color 400ms ease,
+    box-shadow 500ms cubic-bezier(.16, 1, .3, 1);
+}
+
+/* numero grande de etapa decorativo (background) */
+#logica .logica-card::before {
+  content: attr(data-step);
+  position: absolute;
+  top: -2.4rem;
+  right: -.8rem;
+  z-index: 0;
+
+  font-family: var(--ncs);
+  font-size: 12rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+
+  background: linear-gradient(135deg, rgba(0, 128, 201, 0.14) 0%, rgba(29, 164, 243, 0.04) 50%, rgba(0, 128, 201, 0) 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+/* linha glow no topo do card */
+#logica .logica-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 128, 201, 0.6) 35%,
+    rgba(29, 164, 243, 0.85) 50%,
+    rgba(0, 128, 201, 0.6) 65%,
+    transparent 100%
+  );
+  opacity: 0.7;
+  transition: opacity 400ms ease;
+}
+
+/* glow radial controlado pelo hover */
+#logica .logica-card__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background: radial-gradient(
+    520px 280px at 50% 0%,
+    rgba(0, 128, 201, 0.22) 0%,
+    rgba(0, 128, 201, 0.08) 35%,
+    transparent 70%
+  );
+
+  opacity: 0;
+  transition: opacity 500ms cubic-bezier(.16, 1, .3, 1);
+}
+
+#logica .logica-card > *:not(.logica-card__glow) {
+  position: relative;
+  z-index: 1;
+}
+
+/* HOVER do card */
+#logica .logica-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0, 128, 201, 0.45);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -1px 0 rgba(0, 128, 201, 0.28),
+    0 24px 70px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(0, 128, 201, 0.18);
+}
+
+#logica .logica-card:hover::after {
+  opacity: 1;
+}
+
+#logica .logica-card:hover .logica-card__glow {
+  opacity: 1;
+}
+
+#logica .logica-card:hover .logica-card__icon {
+  transform: translateY(-2px) scale(1.04);
+  border-color: rgba(29, 164, 243, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 12px 32px rgba(0, 128, 201, 0.4);
+}
+
+/* =========================
+   ÍCONE
+========================= */
+
+#logica .logica-card__icon {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 1.4rem;
+
+  display: grid;
+  place-items: center;
+
+  background:
+    radial-gradient(circle at 30% 30%, rgba(29, 164, 243, 0.55) 0%, rgba(0, 128, 201, 0.2) 45%, transparent 75%),
+    linear-gradient(135deg, rgba(0, 128, 201, 0.3), rgba(2, 60, 131, 0.55));
+
+  border: 1px solid rgba(0, 128, 201, 0.4);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 8px 24px rgba(0, 128, 201, 0.28);
+
+  margin-bottom: 2rem;
+
+  transition: transform 500ms cubic-bezier(.16, 1, .3, 1), border-color 400ms ease, box-shadow 400ms ease;
+}
+
+#logica .logica-card__icon ion-icon {
+  font-size: 3rem;
+  color: #ffffff;
+  --ionicon-stroke-width: 36px;
+  filter: drop-shadow(0 2px 6px rgba(0, 128, 201, 0.45));
+}
+
+/* =========================
+   LABEL "ETAPA"
+========================= */
+
+#logica .logica-card__step {
+  display: inline-block;
+
+  font-family: var(--ncs);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  background: var(--gradient);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  margin-bottom: 1rem;
+}
+
+/* =========================
+   TÍTULO E DESCRIÇÃO
+========================= */
+
+#logica .logica-card h3 {
+  font-family: var(--ncs);
+  font-size: 2.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #ffffff;
+
+  margin-bottom: 1rem;
+  line-height: 1.05;
+}
+
+#logica .logica-card p {
+  font-size: 1.5rem;
+  line-height: 1.5;
+  color: #b6bfd3;
+}
+
+/* =========================
+   BADGE DE PRÊMIO (CARD 2)
+========================= */
+
+#logica .logica-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .8rem;
+
+  margin-top: 1.6rem;
+  padding: .9rem 1.2rem;
+  border-radius: .8rem;
+
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: left;
+  line-height: 1.3;
+
+  background:
+    radial-gradient(220px 80px at 12% 50%, rgba(29, 164, 243, 0.28) 0%, transparent 70%),
+    linear-gradient(90deg, rgba(10, 18, 28, 0.92) 0%, rgba(20, 30, 42, 0.88) 50%, rgba(12, 20, 30, 0.92) 100%);
+
+  border: 1px solid rgba(0, 128, 201, 0.3);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 128, 201, 0.18),
+    0 8px 22px rgba(0, 0, 0, 0.32);
+}
+
+#logica .logica-card__badge ion-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+
+  color: #3cff9b;
+  filter: drop-shadow(0 0 8px rgba(60, 255, 155, 0.5));
+}
+
+/* =========================
+   BOTÃO CTA (z7-btnx)
+========================= */
+
+#logica .z7-btnx {
+  margin-top: 4rem;
+}
+
+/* =========================
+   DESKTOP — 3 COLUNAS
+========================= */
+
+@media (min-width: 1080px) {
+  #logica header h2 {
+    max-width: 90rem;
+  }
+
+  #logica .logica-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.4rem;
+    margin-top: 6rem;
+  }
+
+  #logica .logica-card {
+    padding: 4rem 3rem;
+  }
+
+  #logica .logica-card::before {
+    font-size: 15rem;
+    top: -3rem;
+    right: -1.2rem;
+  }
+
+  #logica .logica-card__icon {
+    width: 6.8rem;
+    height: 6.8rem;
+  }
+
+  #logica .logica-card__icon ion-icon {
+    font-size: 3.4rem;
+  }
+
+  #logica .logica-card h3 {
+    font-size: 3rem;
+  }
+
+  #logica .logica-card p {
+    font-size: 1.6rem;
+  }
+
+  #logica .logica-card__badge {
+    font-size: 1.35rem;
+    padding: 1rem 1.4rem;
+  }
+
+  #logica .logica-card__badge ion-icon {
+    font-size: 1.8rem;
+  }
+
+  #logica .z7-btnx {
+    margin-top: 6rem;
+  }
+}
+
+/* acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  #logica .logica-card,
+  #logica .logica-card__icon,
+  #logica .logica-card__glow,
+  #logica .logica-card::after {
+    transition: none !important;
+  }
+
+  #logica .logica-card:hover {
+    transform: none;
+  }
+}

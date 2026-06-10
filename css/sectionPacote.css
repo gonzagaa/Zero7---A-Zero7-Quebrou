@@ -1,0 +1,754 @@
+#pacote {
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+
+  /* Fundo base + efeitos */
+  background:
+    /* glow azul topo esquerdo */
+    radial-gradient(700px 380px at 12% 14%, rgba(0, 128, 201, 0.16) 0%, rgba(0, 128, 201, 0.07) 34%, transparent 68%),
+
+    /* glow azul lateral direita */
+    radial-gradient(680px 360px at 92% 30%, rgba(0, 128, 201, 0.12) 0%, rgba(0, 128, 201, 0.05) 32%, transparent 70%),
+
+    /* glow suave inferior */
+    radial-gradient(900px 420px at 50% 110%, rgba(0, 128, 201, 0.08) 0%, transparent 68%),
+
+    /* manchas claras pra profundidade */
+    radial-gradient(520px 240px at 30% 65%, rgba(255, 255, 255, 0.95) 0%, rgba(255,255,255,0.55) 40%, transparent 78%),
+    radial-gradient(460px 220px at 75% 75%, rgba(255, 255, 255, 0.8) 0%, rgba(255,255,255,0.35) 38%, transparent 76%),
+
+    /* base clean */
+    linear-gradient(135deg, #F7FBFF 0%, #EEF5FB 32%, #EAF2FA 58%, #F8FBFF 100%);
+}
+
+#pacote::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    /* grid sutil */
+    linear-gradient(rgba(0, 128, 201, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 128, 201, 0.05) 1px, transparent 1px),
+
+    /* véu de luz diagonal */
+    linear-gradient(120deg,
+      transparent 0%,
+      rgba(255,255,255,0.45) 25%,
+      rgba(0,128,201,0.03) 42%,
+      transparent 62%
+    );
+
+  background-size:
+    28px 28px,
+    28px 28px,
+    100% 100%;
+  background-position:
+    0 0,
+    0 0,
+    0 0;
+
+  opacity: 0.9;
+}
+
+#pacote::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    /* vinheta clara (centro mais iluminado) */
+    radial-gradient(circle at 50% 45%, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.14) 38%, rgba(255,255,255,0) 70%),
+
+    /* detalhe azul muito sutil */
+    linear-gradient(90deg,
+      transparent 0%,
+      rgba(0,128,201,0.025) 20%,
+      rgba(0,128,201,0.05) 50%,
+      rgba(0,128,201,0.025) 80%,
+      transparent 100%
+    );
+
+  mix-blend-mode: normal;
+}
+
+#pacote > * {
+  position: relative;
+  z-index: 1;
+}
+
+#pacote img.bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    inset: 0;
+    z-index: -1;
+
+    display: none;
+}
+
+#pacote img.bg.desktop {
+    display: none;
+}
+
+
+#pacote .cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+#pacote .card img {
+    width: 100%;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+#pacote .card.dois,
+#pacote .card.tres {
+    padding-top: 15rem;
+}
+
+#pacote .card {
+    background: linear-gradient(45deg, #01040A, #070C11);
+    padding: 2rem;
+    border-radius: 1rem;
+
+    width: 100%;
+    max-width: 100%;
+
+    position: relative;
+  overflow: hidden;
+  border-radius: 1.2rem;
+
+  /* Base escura + layers */
+  background:
+    /* brilho suave azul no topo esquerdo */
+    radial-gradient(700px 320px at 12% 12%, rgba(0, 128, 201, 0.22) 0%, rgba(0, 128, 201, 0.08) 28%, transparent 62%),
+
+    /* brilho secundário no canto direito */
+    radial-gradient(620px 300px at 88% 20%, rgba(0, 128, 201, 0.14) 0%, rgba(0, 128, 201, 0.05) 35%, transparent 68%),
+
+    /* glow mais profundo embaixo */
+    radial-gradient(900px 380px at 50% 115%, rgba(0, 128, 201, 0.10) 0%, transparent 65%),
+
+    /* vinheta escura pra dar contraste no conteúdo */
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.015) 0%, rgba(255,255,255,0) 55%),
+
+    /* gradiente base */
+    linear-gradient(135deg, #01040A 0%, #020813 38%, #04111D 65%, #01040A 100%);
+  
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    inset 0 -1px 0 rgba(0, 128, 201, 0.08),
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(0, 128, 201, 0.03);
+}
+
+#pacote .card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    /* linha horizontal glow */
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 128, 201, 0.12) 20%,
+      rgba(0, 128, 201, 0.04) 50%,
+      rgba(0, 128, 201, 0.12) 80%,
+      transparent 100%
+    );
+  opacity: 0.35;
+  mix-blend-mode: screen;
+}
+
+/* textura tech sutil (grid/diagonal) */
+#pacote .card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(0,128,201,0.35) 0%, transparent 35%, transparent 65%, rgba(0,128,201,0.20) 100%);
+  background-size:
+    28px 28px,
+    28px 28px,
+    100% 100%;
+  background-position:
+    0 0,
+    0 0,
+    0 0;
+}
+
+#pacote .card .text {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#pacote .card h3 {
+    color: #fff;
+    font-size: 1.8rem;
+  
+    font-family: var(--ncs);
+    text-transform: uppercase;
+    font-weight: 500;
+
+    background: #ffffff17;
+    padding: 1rem;
+
+    position: relative;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.9rem 1.4rem;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  isolation: isolate;
+
+  background:
+    /* glow azul vindo da esquerda */
+    radial-gradient(220px 80px at 12% 50%, rgba(0, 128, 201, 0.22) 0%, transparent 70%),
+
+    /* glow suave no centro */
+    radial-gradient(300px 120px at 50% 50%, rgba(0, 128, 201, 0.08) 0%, transparent 75%),
+
+    /* base escura translúcida */
+    linear-gradient(90deg, rgba(10, 18, 28, 0.88) 0%, rgba(20, 30, 42, 0.82) 50%, rgba(12, 20, 30, 0.88) 100%);
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    inset 0 -1px 0 rgba(0,128,201,0.08),
+    0 10px 28px rgba(0,0,0,0.32);
+}
+
+#pacote .card h3 span {
+    font-family: var(--ncs);
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#pacote .card p {
+    color: #b6bfd3;
+    font-size: 1.3rem;
+    margin-top: 1rem;
+}
+
+#pacote .card p span {
+    font-weight: 600;
+    color: #c8cedb;
+}
+
+#pacote .card h4 {
+    color: #fff;
+    font-size: 1.6rem;
+
+    margin-top: 2rem;
+}
+
+#pacote .card .topics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .5rem;
+    width: 100%;
+
+    margin-block: 1rem;
+    text-align: left;
+
+    padding: 2rem;
+    background: #ffffff13;
+}
+
+#pacote .card .topic {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#pacote .card .topic ion-icon {
+    color: #c8cedb;
+    font-size: .7rem;
+}
+
+#pacote .card .topic p {
+    margin-top: 0;
+}
+
+#pacote .card h5 {
+    color: #fff;
+    font-size: 1.6rem;
+
+    margin-top: 2rem;
+
+    line-height: 2;
+}
+
+#pacote .card h5 span {
+    background: rgba(255, 0, 0, 0.444);
+    padding: .5rem;
+    line-height: 1;
+    border-radius: .5rem;
+
+    text-decoration: line-through;
+}
+
+#pacote .card.quatro h5 span {
+    /* background: var(--gradient);
+    text-decoration: initial; */
+}
+
+#pacote .card h6 {
+    font-size: 2rem;
+}
+
+#pacote a button {
+    margin-top: 3rem;
+}
+
+#pacote a.regulamento {
+    margin-top: 2rem;
+    color: #fff;
+    font-size: 1.4rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#pacote .card.quatro {
+  position: relative;
+  overflow: hidden;
+}
+
+#pacote .card.quatro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  
+
+  opacity: 0.62;
+  z-index: 0;
+}
+
+#pacote .card.quatro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background:
+    linear-gradient(90deg,
+      rgba(0, 40, 85, 0.18) 0%,
+      rgba(255, 255, 255, 0.02) 40%,
+      rgba(180, 20, 20, 0.10) 100%
+    );
+
+  opacity: 0.9;
+  z-index: 0;
+}
+
+#pacote .card.quatro .text {
+  position: relative;
+  z-index: 1;
+}
+
+#pacote .old,
+#pacote .price {
+    margin-bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    isolation: isolate;
+    padding: 2rem;
+    padding-block: 4rem;
+
+    background:
+        /* glow azul vindo da esquerda */
+        radial-gradient(220px 80px at 12% 50%, rgba(0, 128, 201, 0.22) 0%, transparent 70%),
+
+        /* glow suave no centro */
+        radial-gradient(300px 120px at 50% 50%, rgba(0, 128, 201, 0.08) 0%, transparent 75%),
+
+        /* base escura translúcida */
+        linear-gradient(90deg, rgba(10, 18, 28, 0.88) 0%, rgba(20, 30, 42, 0.82) 50%, rgba(12, 20, 30, 0.88) 100%);
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        inset 0 -1px 0 rgba(0,128,201,0.08),
+        0 10px 28px rgba(0,0,0,0.32);
+}
+
+#pacote .price {
+    margin-top: 2rem;
+}
+
+#pacote .card .price h6 {
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+#pacote .card .price h6 span {
+    background: rgba(255, 0, 0, 0.444);
+    padding: .5rem;
+    line-height: 1;
+    border-radius: .5rem;
+    font-size: 1.5rem;
+
+    text-decoration: line-through;
+}
+
+#pacote .price h2 {
+    padding-inline: 5%;
+    line-height: 1.3;
+
+    margin-bottom: 2rem;
+
+}
+
+#pacote .price h4 {
+    font-size: 4rem;
+    color: #fff;
+    font-family: var(--ncs);
+    line-height: 1;
+}
+
+#pacote.white .card .price h4 {
+    color: #081c31;
+}
+
+#pacote .price h4 span {
+    font-family: var(--ncs);
+    background: linear-gradient(45deg, #1da4f3, #056ba6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2rem;
+}
+
+#pacote .price h5 {
+    font-family: var(--ncs);
+    color: #fff;
+    font-size: 2.5rem;
+
+    margin-top: -1rem;
+}
+
+#pacote .price h5 span {
+    background: linear-gradient(45deg, #1da4f3, #056ba6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.7rem;
+}
+
+#pacote .price a {
+    margin-top: 2rem;
+}
+
+@media (min-width: 1080px) {
+    section#pacote img.bg.desktop {
+        display: none;
+    }
+
+    section#pacote .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    section#pacote img.bg.mobile {
+        display: none;
+    }
+
+    section#pacote .card {
+        padding: 5rem;
+    }
+
+    section#pacote .card h3 {
+        font-size: 2.8rem;
+    }
+
+    section#pacote .card.quatro h3 br,
+    section#pacote .card.tres h5 br {
+        display: none;
+    }
+
+    section#pacote .card p {
+        font-size: 1.6rem;
+    }
+
+    section#pacote .card.um .text,
+    section#pacote .card.quatro .text {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+        gap: 8rem;
+    }
+
+    section#pacote .card .topic p {
+        font-size: 1.4rem;
+    }
+
+    section#pacote .card h4 {
+        margin-top: 0;
+    }
+
+    section#pacote .card.dois h5 br {
+        display: none;
+    }
+
+    section#pacote .card.dois {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: "a b";
+    }
+
+    section#pacote .card.dois img {
+        grid-area: b;
+    }
+
+    section#pacote .card.tres {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: "a b";
+    }
+
+    section#pacote .card.tres img {
+        grid-area: b;
+    }
+
+    section#pacote .card.tres .topics {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    section#pacote .card.quatro {
+    }
+
+    section#pacote .card.quatro p {
+        font-size: 1.8rem;
+    }   
+
+    section#pacote .card img {
+        width: 160%;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+        left: initial;
+    }
+
+    section#pacote .card.dois img {
+        right: -10%;
+
+        mask-image: linear-gradient(to left, #000, transparent);
+    }
+
+    section#pacote .card.tres img {
+        right: -30%;
+
+        mask-image: linear-gradient(to left, #000, transparent);
+
+    }
+
+    section#pacote .card.dois,
+    section#pacote .card.tres {
+        padding: 5rem;
+    }
+
+    section#pacote .price {
+        margin-top: 0;
+        height: 100%;
+    }
+
+    section#pacote .price h4 {
+        font-size: 5rem;
+    }
+    
+    section#pacote .price h4 span {
+        font-size: 3rem;
+    }
+    
+    section#pacote .price h5 {
+        font-size: 3rem;
+    }
+    
+    section#pacote .price h5 span {
+        font-size: 2rem;
+    }
+
+    section#pacote .card.quatro {
+        
+    }
+}
+
+/* =====================================================
+   REFINO — CARD.UM (PLANO RECOVERY)
+   Topics viram spec tiles com label/valor hierarquizados
+===================================================== */
+
+#pacote .card.um .topics {
+  background: transparent;
+  padding: 0;
+  gap: .8rem;
+  margin-block: 1.6rem;
+}
+
+#pacote .card.um .topic {
+  position: relative;
+  padding: 1.2rem 1.4rem 1.2rem 2rem;
+  border-radius: .8rem;
+
+  background: linear-gradient(
+    135deg,
+    rgba(0, 128, 201, 0.06) 0%,
+    rgba(0, 128, 201, 0.02) 100%
+  );
+  border: 1px solid rgba(0, 128, 201, 0.14);
+
+  display: block;
+  align-items: initial;
+  gap: 0;
+
+  transition:
+    border-color 350ms ease,
+    background 350ms ease,
+    transform 350ms cubic-bezier(.16, 1, .3, 1);
+}
+
+/* accent vertical à esquerda do tile (substitui o ion-icon) */
+#pacote .card.um .topic::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 3px;
+
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(29, 164, 243, 1) 50%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 10px rgba(29, 164, 243, 0.55),
+    0 0 3px rgba(0, 128, 201, 0.8);
+  border-radius: 999px;
+
+  transition:
+    top 350ms cubic-bezier(.16, 1, .3, 1),
+    bottom 350ms cubic-bezier(.16, 1, .3, 1),
+    box-shadow 350ms ease;
+}
+
+#pacote .card.um .topic:hover {
+  border-color: rgba(29, 164, 243, 0.4);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 128, 201, 0.14) 0%,
+    rgba(0, 128, 201, 0.04) 100%
+  );
+  transform: translateX(3px);
+}
+
+#pacote .card.um .topic:hover::before {
+  top: 8%;
+  bottom: 8%;
+  box-shadow:
+    0 0 18px rgba(29, 164, 243, 0.85),
+    0 0 6px rgba(29, 164, 243, 1);
+}
+
+#pacote .card.um .topic ion-icon {
+  display: none;
+}
+
+/* texto: o span vira label pequeno em uppercase, valor logo abaixo */
+#pacote .card.um .topic p {
+  font-family: var(--ncs);
+  font-size: 1.5rem;
+  color: #ffffff;
+  font-weight: 500;
+  margin: 0;
+  text-align: left;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+
+#pacote .card.um .topic p span {
+  display: block;
+  font-size: 1rem;
+
+  font-weight: 500;
+  color: #a0abb7;
+  margin-bottom: .4rem;
+}
+
+/* =====================================================
+   DESKTOP — refinos de layout do card.um
+===================================================== */
+
+@media (min-width: 1080px) {
+  /* topics em 2 colunas no desktop pra ficar denso e equilibrado */
+  section#pacote .card.um .topics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  section#pacote .card.um .text .box h3 {
+    font-size: 5rem;
+    text-align: left;
+  }
+
+  /* dá mais espaço para o painel de specs */
+  section#pacote .card.um .text {
+    grid-template-columns: minmax(0, .65fr) minmax(0, 1.15fr);
+    gap: 5rem;
+    align-items: center;
+  }
+
+  /* h3 verticalmente centralizada no card.um */
+  section#pacote .card.um .box:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  /* topics tile com fonte ligeiramente maior */
+  section#pacote .card.um .topic p {
+    font-size: 1.6rem;
+  }
+
+  section#pacote .card.um .topic p span {
+    font-size: 1.05rem;
+  }
+}

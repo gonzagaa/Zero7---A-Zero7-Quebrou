@@ -1,0 +1,170 @@
+/* =========================================================
+   #tarja-oferta — tarja de oferta com animação 2 fases (GSAP)
+   Escopo isolado: tudo aqui dentro vive sob #tarja-oferta
+   ========================================================= */
+
+#tarja-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 99999; /* abaixo da tarja (100000) */
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+
+#tarja-oferta {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 100000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+
+  padding: 1.4rem 2.4rem;
+  border-radius: 1.25rem;
+
+  background:
+  radial-gradient(120% 140% at 15% 10%,
+    #e93645 0%,
+    rgba(29,164,243,0) 42%),
+
+  radial-gradient(100% 120% at 85% 20%,
+    rgba(60,255,155,.16) 0%,
+    rgba(60,255,155,0) 45%),
+
+  linear-gradient(135deg,
+    #3b0710 0%,
+    #7a0f1c 32%,
+    #b8142b 62%,
+    #e93645 100%);
+
+  color: #ffffff;
+  font-family: 'TT Fors Trial', 'Inter', sans-serif;
+
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .38);
+
+  /* GSAP é dono do transform a partir daqui (xPercent/yPercent + scale) */
+  opacity: 0;
+  will-change: transform, opacity;
+
+  pointer-events: auto;
+}
+
+#tarja-oferta .tarja-oferta-text {
+  font-weight: 800;
+  font-size: clamp(1.1rem, 2.6vw, 1.9rem);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+#tarja-oferta #tarja-timer {
+  font-weight: 800;
+  font-size: clamp(1.1rem, 2.6vw, 1.8rem);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+  line-height: 1;
+
+  background: rgba(255, 255, 255, 0.96);
+  color: #000000;
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.6rem;
+}
+
+/* Estado final (definido por classe aplicada pelo JS após a animação) */
+#tarja-oferta.is-pinned {
+  will-change: auto;
+}
+
+/* Responsivo: garante que texto + timer caibam na mesma linha */
+@media (max-width: 768px) {
+  /* Estado INICIAL no mobile: selo central, fonte e padding maiores */
+  #tarja-oferta {
+    flex-wrap: wrap;
+    white-space: normal;
+    text-align: center;
+    gap: 0.85rem;
+    padding: 1.5rem 1.6rem;
+    border-radius: 1rem;
+    width: calc(100vw - 80px);
+    max-width: calc(100vw - 80px);
+
+    /* Transições suaves entre o estado inicial e o .is-pinned */
+    transition:
+      padding 0.7s cubic-bezier(0.77, 0, 0.175, 1),
+      gap 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  #tarja-oferta .tarja-oferta-text {
+    font-size: clamp(1.1rem, 4.8vw, 1.8rem);
+    white-space: normal;
+    word-break: normal;
+    transition: font-size 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  #tarja-oferta #tarja-timer {
+    font-size: clamp(1.1rem, 4.8vw, 1.7rem);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    white-space: nowrap;
+    transition:
+      font-size 0.7s cubic-bezier(0.77, 0, 0.175, 1),
+      padding 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  /* Estado FINAL no mobile: texto à esquerda (em 2 linhas), timer à direita
+     com fonte maior pra altura bater com as 2 linhas do texto */
+  #tarja-oferta.is-pinned {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    text-align: left;
+    gap: 0.75rem;
+    padding: 1.1rem 1.4rem !important;
+    max-width: none;
+  }
+
+  #tarja-oferta.is-pinned .tarja-oferta-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    line-height: 1.1;
+    font-size: clamp(0.8rem, 3.4vw, 1.25rem);
+  }
+
+  #tarja-oferta.is-pinned #tarja-timer {
+    flex: 0 0 auto;
+    font-size: clamp(1.2rem, 4.7vw, 1.7rem);
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+@media (max-width: 380px) {
+  #tarja-oferta {
+    gap: 0.7rem;
+    padding: 1.2rem 1.1rem;
+  }
+
+  #tarja-oferta .tarja-oferta-text {
+    font-size: clamp(1rem, 5vw, 1.45rem);
+  }
+
+  #tarja-oferta #tarja-timer {
+    font-size: clamp(1rem, 5vw, 1.4rem);
+    padding: 0.45rem 0.6rem;
+  }
+
+  #tarja-oferta.is-pinned .tarja-oferta-text {
+    font-size: clamp(0.7rem, 3.6vw, 1rem);
+  }
+
+  #tarja-oferta.is-pinned #tarja-timer {
+    font-size: clamp(1.1rem, 5.2vw, 1.45rem);
+    padding: 0.35rem 0.5rem;
+  }
+}

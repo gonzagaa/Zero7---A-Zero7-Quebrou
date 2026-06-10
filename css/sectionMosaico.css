@@ -1,0 +1,261 @@
+/* =========================
+   MOSAICO ANIMADO (LP)
+   ========================= */
+
+.mosaic-section header {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  isolation: isolate;
+}
+
+.mosaic-section header::before {
+  content: "";
+  position: absolute;
+  inset: -75% -30%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.7) 35%,
+    rgba(0, 0, 0, 0.4) 60%,
+    rgba(0, 0, 0, 0) 85%
+  );
+  filter: blur(30px);
+}
+
+.mosaic-section header h2 {
+  color: #fff;
+  font-size: 3.5rem;
+  line-height: 1.2;
+}
+
+.mosaic-section header a {
+  margin-top: 3rem;
+}
+
+.mosaic-section {
+  position: relative;
+  width: 100%;
+  height: 110svh; /* ocupa tela inteira */
+  min-height: 700px;
+  overflow: hidden;
+  isolation: isolate;
+
+  padding-block: 0;
+
+   background:
+    /* brilho suave azul no topo esquerdo */
+    radial-gradient(700px 320px at 12% 12%, rgba(0, 128, 201, 0.22) 0%, rgba(0, 128, 201, 0.08) 28%, transparent 62%),
+
+    /* brilho secundário no canto direito */
+    radial-gradient(620px 300px at 88% 20%, rgba(0, 128, 201, 0.14) 0%, rgba(0, 128, 201, 0.05) 35%, transparent 68%),
+
+    /* glow mais profundo embaixo */
+    radial-gradient(900px 380px at 50% 115%, rgba(0, 128, 201, 0.10) 0%, transparent 65%),
+
+    /* vinheta escura pra dar contraste no conteúdo */
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.015) 0%, rgba(255,255,255,0) 55%),
+
+    /* gradiente base */
+    linear-gradient(135deg, #01040A 0%, #020813 38%, #04111D 65%, #01040A 100%);
+  
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    inset 0 -1px 0 rgba(0, 128, 201, 0.08),
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(0, 128, 201, 0.03);
+}
+
+/* vinheta/top-bottom fade pra ficar premium */
+.mosaic-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.9) 0%, rgba(0,0,0,0) 14%, rgba(0,0,0,0) 86%, rgba(0,0,0,.95) 100%),
+    radial-gradient(circle at center, rgba(0,0,0,0) 35%, rgba(0,0,0,.15) 100%);
+}
+
+/* grade */
+.mosaic-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(180px, 1fr));
+  gap: 1rem;
+  height: 100%;
+  padding: 1rem;
+}
+
+/* cada coluna */
+.mosaic-col {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+/* trilho que vai animar */
+.mosaic-track {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  will-change: transform;
+  animation-name: mosaicUp;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* direção invertida (opcional) */
+.mosaic-col.reverse .mosaic-track {
+  animation-name: mosaicDown;
+}
+
+/* velocidades diferentes por coluna */
+.mosaic-col.speed-1 .mosaic-track { animation-duration: 26s; }
+.mosaic-col.speed-2 .mosaic-track { animation-duration: 32s; }
+.mosaic-col.speed-3 .mosaic-track { animation-duration: 24s; }
+.mosaic-col.speed-4 .mosaic-track { animation-duration: 36s; }
+.mosaic-col.speed-5 .mosaic-track { animation-duration: 28s; }
+
+/* offsets para "desalinhar" as colunas */
+.mosaic-col.offset-1 .mosaic-track { margin-top: -120px; }
+.mosaic-col.offset-2 .mosaic-track { margin-top: -260px; }
+.mosaic-col.offset-3 .mosaic-track { margin-top: -70px; }
+.mosaic-col.offset-4 .mosaic-track { margin-top: -210px; }
+.mosaic-col.offset-5 .mosaic-track { margin-top: -140px; }
+
+/* cards */
+.mosaic-card {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #101010;
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.03);
+  transform: translateZ(0);
+}
+
+.mosaic-card img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform .8s ease, filter .8s ease;
+  filter: saturate(.95) contrast(1.02);
+}
+
+.mosaic-card:hover img {
+  transform: scale(1.04);
+  filter: saturate(1.05) contrast(1.05);
+}
+
+/* alturas variadas para criar o visual de mosaico */
+.mosaic-card.h-sm { aspect-ratio: 4 / 3; }
+.mosaic-card.h-md { aspect-ratio: 4 / 3; }
+.mosaic-card.h-lg { aspect-ratio: 4 / 3; }
+
+/* animações (metade do conteúdo, pois duplicamos os itens) */
+@keyframes mosaicUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(calc(-50% - 0.5rem)); }
+}
+
+@keyframes mosaicDown {
+  from { transform: translateY(calc(-50% - 0.5rem)); }
+  to   { transform: translateY(0); }
+}
+
+/* pausa ao passar mouse (opcional, fica elegante) */
+.mosaic-section:hover .mosaic-track {
+  /* animation-play-state: paused; */
+}
+
+/* responsivo */
+@media (max-width: 1200px) {
+  .mosaic-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* esconde uma coluna pra aliviar */
+  .mosaic-grid .mosaic-col:nth-child(5) {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .mosaic-section {
+    height: 720px;          /* altura da faixa visível no mobile */
+    min-height: 720px;
+    max-height: 720px;
+    overflow: hidden;
+  }
+
+  .mosaic-section header {
+    width: 98%;
+  }
+
+  .mosaic-section header h2 {
+    font-size: 2.5rem;
+  }
+
+  .mosaic-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: .75rem;
+    padding: .75rem;
+    height: 100%;
+    align-content: start;
+  }
+
+  /* deixa SOMENTE as 2 primeiras colunas */
+  .mosaic-grid .mosaic-col:nth-child(n + 3) {
+    display: none !important;
+  }
+
+  .mosaic-col {
+    border-radius: 14px;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .mosaic-card {
+    border-radius: 14px;
+  }
+
+  .mosaic-track {
+    gap: .75rem;
+  }
+
+  /* remove offsets exagerados no mobile pra não "descer" conteúdo */
+  .mosaic-col.offset-1 .mosaic-track,
+  .mosaic-col.offset-2 .mosaic-track,
+  .mosaic-col.offset-3 .mosaic-track,
+  .mosaic-col.offset-4 .mosaic-track,
+  .mosaic-col.offset-5 .mosaic-track {
+    margin-top: 0 !important;
+  }
+
+  /* velocidades mais suaves no mobile */
+  .mosaic-col.speed-1 .mosaic-track { animation-duration: 30s !important; }
+  .mosaic-col.speed-2 .mosaic-track { animation-duration: 34s !important; }
+
+  /* se quiser as duas subindo igual, remova o reverse no mobile */
+  .mosaic-col.reverse .mosaic-track {
+    animation-name: mosaicUp;
+  }
+}
+/* acessibilidade: reduz movimento */
+@media (prefers-reduced-motion: reduce) {
+  .mosaic-track {
+    animation: none !important;
+    transform: translateY(0) !important;
+  }
+}

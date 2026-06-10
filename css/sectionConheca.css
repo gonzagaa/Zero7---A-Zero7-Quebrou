@@ -1,0 +1,432 @@
+/* =========================
+   SECTION CONHEÇA
+========================= */
+
+#conheca {
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+
+  /* Fundo base + efeitos */
+  background:
+    /* glow azul topo esquerdo */
+    radial-gradient(700px 380px at 12% 14%, rgba(0, 128, 201, 0.16) 0%, rgba(0, 128, 201, 0.07) 34%, transparent 68%),
+
+    /* glow azul lateral direita */
+    radial-gradient(680px 360px at 92% 30%, rgba(0, 128, 201, 0.12) 0%, rgba(0, 128, 201, 0.05) 32%, transparent 70%),
+
+    /* glow suave inferior */
+    radial-gradient(900px 420px at 50% 110%, rgba(0, 128, 201, 0.08) 0%, transparent 68%),
+
+    /* manchas claras pra profundidade */
+    radial-gradient(520px 240px at 30% 65%, rgba(255, 255, 255, 0.95) 0%, rgba(255,255,255,0.55) 40%, transparent 78%),
+    radial-gradient(460px 220px at 75% 75%, rgba(255, 255, 255, 0.8) 0%, rgba(255,255,255,0.35) 38%, transparent 76%),
+
+    /* base clean */
+    linear-gradient(135deg, #F7FBFF 0%, #EEF5FB 32%, #EAF2FA 58%, #F8FBFF 100%);
+}
+
+#conheca::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    /* grid sutil */
+    linear-gradient(rgba(0, 128, 201, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 128, 201, 0.05) 1px, transparent 1px),
+
+    /* véu de luz diagonal */
+    linear-gradient(120deg,
+      transparent 0%,
+      rgba(255,255,255,0.45) 25%,
+      rgba(0,128,201,0.03) 42%,
+      transparent 62%
+    );
+
+  background-size:
+    28px 28px,
+    28px 28px,
+    100% 100%;
+  background-position:
+    0 0,
+    0 0,
+    0 0;
+
+  opacity: 0.9;
+}
+
+#conheca::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    /* vinheta clara (centro mais iluminado) */
+    radial-gradient(circle at 50% 45%, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.14) 38%, rgba(255,255,255,0) 70%),
+
+    /* detalhe azul muito sutil */
+    linear-gradient(90deg,
+      transparent 0%,
+      rgba(0,128,201,0.025) 20%,
+      rgba(0,128,201,0.05) 50%,
+      rgba(0,128,201,0.025) 80%,
+      transparent 100%
+    );
+
+  mix-blend-mode: normal;
+}
+
+#conheca > * {
+  position: relative;
+  z-index: 1;
+}
+
+#conheca img.bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    inset: 0;
+    z-index: -1;
+}
+
+#conheca img.bg.desktop {
+    display: none;
+}
+
+#conheca header h2 {
+    margin-bottom: 1rem;
+}
+
+/* =========================
+   LAYOUT BASE (mobile/tablet)
+========================= */
+
+#conheca .content {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+}
+
+#conheca .content > header {
+    width: 100%;
+}
+
+/* =========================
+   SWIPER / CARDS
+========================= */
+
+#conheca .cards.swiper {
+    width: 100%;
+    overflow: visible;
+    margin-top: 1.6rem;
+    padding-bottom: .2rem;
+}
+
+#conheca .cards .swiper-wrapper {
+    align-items: stretch;
+}
+
+#conheca .cards .card {
+    border: 3px solid #ffffff09;
+    border-radius: 1rem;
+    overflow: hidden;
+    height: auto;
+    transition: transform 400ms ease, border-color 400ms ease, box-shadow 400ms ease, opacity 400ms ease;
+    opacity: .78;
+    transform: scale(.96);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+#conheca .cards .swiper-slide-active.card {
+    opacity: 1;
+    transform: scale(1);
+    border-color: #ffffff18;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+}
+
+#conheca .cards .card:nth-child(1) {
+    background: #070E0F;
+}
+
+#conheca .cards .card:nth-child(2) {
+    background: #070C11;
+}
+
+#conheca .cards .card:nth-child(3) {
+    background: #0D0F18;
+}
+
+#conheca .cards .card img {
+    width: 100%;
+    display: block;
+    border-bottom: 2px solid #ffffff17;
+}
+
+#conheca .cards .card .text {
+    padding: 1.5rem;
+}
+
+#conheca .cards .card .text p {
+    font-size: 1.4rem;
+    line-height: 1.4;
+    color: #fff;
+    margin-bottom: 2rem;
+}
+
+#conheca .cards .card a {
+    display: block;
+    width: 100%;
+}
+
+#conheca .cards .card a button,
+#conheca .cards .card a {
+    width: 100%;
+}
+
+/* Gradientes dos botões por card */
+#conheca .cards .card:nth-child(1) a button {
+    background: linear-gradient(to right, #00FFDE, #00B49D);
+    color: #000;
+}
+
+#conheca .cards .card:nth-child(2) a button {
+    background: linear-gradient(to right, #00A1FF, #007EC7);
+    color: #fff;
+}
+
+#conheca .cards .card:nth-child(3) a button {
+    background: linear-gradient(to right, #0021FF, #0015A0);
+    color: #fff;
+}
+
+/* =========================
+   CONTROLES DO SWIPER
+========================= */
+
+#conheca .conheca-controls {
+    margin-top: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .9rem;
+}
+
+#conheca .conheca-prev,
+#conheca .conheca-next {
+    position: static;
+    width: 4rem;
+    height: 4rem;
+    margin: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(8px);
+    transition: all 250ms ease;
+}
+
+#conheca .conheca-prev:hover,
+#conheca .conheca-next:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+#conheca .conheca-prev::after,
+#conheca .conheca-next::after {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #00142B;
+}
+
+#conheca .conheca-pagination {
+    position: static;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+}
+
+#conheca .conheca-pagination .swiper-pagination-bullet {
+    width: 9px;
+    height: 9px;
+    background: #00142B;
+    opacity: 1;
+    transition: all 250ms ease;
+    border-radius: 999px;
+}
+
+#conheca .conheca-pagination .swiper-pagination-bullet-active {
+    width: 24px;
+    background: linear-gradient(90deg, #00A1FF, #00A1FF);
+}
+
+#conheca a button {
+    margin-top: 2rem;
+}
+
+#conheca a button.desktop {
+    display: none;
+}
+
+/* =========================
+   DESKTOP (2 colunas + swiper)
+========================= */
+
+@media (min-width: 1080px) {
+    section#conheca header {
+        margin-bottom: 0;
+    }
+
+    section#conheca a button.desktop {
+        display: inherit;
+    }
+
+    section#conheca a button.mobile {
+        display: none;
+    }
+
+    section#conheca img.bg.desktop {
+        display: inherit;
+    }
+
+    section#conheca img.bg.mobile {
+        display: none;
+    }
+
+    section#conheca header.dois {
+        background: linear-gradient(to bottom, #DAE5F5, #B4CDE9);
+        padding: 4rem;
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    /* section#conheca header.dois h2 {
+        color: #fff;
+    }
+
+    section#conheca header.dois p {
+        color: #c0c0c0;
+        margin-top: 1rem;
+    } */
+
+    /* 2 colunas: 1 header em cada lado */
+    #conheca .content {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        align-items: start;
+        gap: 10rem;
+    }
+
+    #conheca .content > header:nth-child(1) {
+        grid-column: 1;
+        align-self: center;
+    }
+
+    #conheca .content header h2.um {
+        font-size: 4rem;
+    }
+
+    #conheca .content header p {
+        font-size: 1.8rem;
+        line-height: 1.6;
+    }
+
+    #conheca .content header:nth-child(2) p {
+        font-size: 1.4rem;
+    }
+
+    #conheca .content > header:nth-child(2) {
+        grid-column: 2;
+    }
+
+    /* Coluna esquerda */
+    #conheca .content > header:nth-child(1) h2 {
+        text-align: center;
+        margin-bottom: 1.6rem;
+    }
+
+    #conheca .content > header:nth-child(1) p {
+        text-align: center;
+        max-width: 72rem;
+        margin-inline: auto;
+    }
+
+    #conheca .content > header:nth-child(1) p + p {
+        margin-top: 1rem;
+    }
+
+    /* Coluna direita */
+    #conheca .content > header:nth-child(2) h2 {
+        text-align: center;
+        margin-bottom: 1.6rem;
+    }
+
+    #conheca .content > header:nth-child(2) > p:last-child {
+        text-align: center;
+        margin-top: 1.4rem;
+    }
+
+    /* Mantém swiper no desktop */
+    #conheca .content > header:nth-child(2) .cards.swiper {
+        max-width: 54rem;
+        margin-inline: auto;
+    }
+
+    /* Ajuste visual dos cards no desktop */
+    #conheca .cards .card {
+        opacity: .85;
+        transform: scale(.97);
+    }
+
+    #conheca .cards .swiper-slide-active.card {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    #conheca .cards .card .text {
+        padding: 1.4rem 2rem 2rem;
+    }
+
+    #conheca .cards .card .text p {
+        margin-top: .4rem;
+        font-size: 1.5rem;
+        line-height: 1.45;
+    }
+
+    #conheca .cards .card a button {
+        font-size: 1.4rem;
+        padding: 1.4rem 2rem;
+    }
+
+    /* mantém o preview da direita visível */
+    #conheca .cards .swiper-slide-next {
+        opacity: 0 !important;
+        visibility: visible !important;
+        pointer-events: none;
+    }
+
+    /* ativo normal */
+    #conheca .cards .swiper-slide-active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto;
+        z-index: 2;
+    }
+
+    /* TODOS os cards que já passaram (ficaram à esquerda) somem */
+    #conheca .cards .swiper-slide.is-left-hidden {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+}

@@ -1,0 +1,78 @@
+#tarja {
+    position: fixed;
+    z-index: 10;
+    top: 1%;
+    width: 93%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    right: 0;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+
+    /* liquid glass */
+    background:
+  linear-gradient(180deg, rgba(255,255,255,.25) 0%, rgba(255,255,255,0) 45%),
+  linear-gradient(135deg, #FF3D00 0%, var(--laranja-queimado) 100%);
+
+}
+
+#tarja .box {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+#tarja header {
+    margin-bottom: 0;
+}
+
+#tarja header h2 {
+    font-size: 1.6rem;
+    color: var(--creme);
+
+    text-align: left;
+}
+
+.timer {
+  display: flex;
+  gap: .5rem;
+  align-items: baseline;
+
+  background: var(--creme);
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.numero {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  color: #4f1503;
+  font-family: var(--bricolage);
+  font-variant-numeric: tabular-nums;
+}
+
+span#horas,
+span#minutos,
+span#segundos {
+    color: #FF3D00;
+    font-weight: 700;
+}
+
+@media (min-width: 1080px) {
+    #tarja {
+        bottom: initial;
+        top: 1%;
+        z-index: 10000;
+    }
+
+    #tarja .box {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    #tarja .numero {
+        font-size: 1.6rem;
+    }
+}
+

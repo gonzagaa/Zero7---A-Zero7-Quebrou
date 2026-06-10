@@ -1,0 +1,17 @@
+.slide {
+    background: var(--color-text);
+    padding: 2rem;
+}
+
+.slide img {
+    width: 30%;
+}
+
+@media (min-width: 1080px) {
+    .slide {
+    }
+
+    .slide img {
+        width: 5%;
+    }
+}

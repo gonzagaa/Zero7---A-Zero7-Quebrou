@@ -1,0 +1,46 @@
+#ciclo {
+    overflow: hidden;
+    position: relative;
+}
+
+#ciclo img.bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    inset: 0;
+    z-index: -1;
+}
+
+#ciclo img.bg.desktop {
+    display: none;
+}
+
+#ciclo header h2 {
+    font-size: 1.8rem;
+}
+
+@media (min-width: 1080px) {
+    section#ciclo img.bg.desktop {
+        display: inherit;
+    }
+
+    section#ciclo .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    section#ciclo img.bg.mobile {
+        display: none;
+    }
+
+    section#ciclo header h2 {
+        font-size: 3rem;
+    }
+
+    section#ciclo header h2 br {
+        display: none;
+    }
+}
