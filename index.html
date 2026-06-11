@@ -22,8 +22,8 @@
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="./css/index.css?sgerg35wqdqwd2qwd">
-    <link rel="stylesheet" href="./css/tarja-oferta.css?v=2131">
+    <link rel="stylesheet" href="./css/index.css?v=wqd324sgerg35wqdqwd2qwd">
+    <link rel="stylesheet" href="./css/tarja-oferta.css?v=wefwef2131">
 
     <style>
       /* VSL lock: trava scroll e esconde botão CTA da home até 75% do vídeo */
@@ -1025,29 +1025,58 @@
           var id = vsl.getAttribute('data-video-id');
           if (!id) return;
 
-          var iframe = document.createElement('iframe');
-          iframe.id = 'vsl-yt-frame';
-          iframe.className = 'vsl__iframe';
-          iframe.src =
-            'https://www.youtube-nocookie.com/embed/' + id +
-            '?autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1';
-          iframe.title = 'Vídeo de apresentação';
-          iframe.allow =
-            'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-          iframe.setAttribute('allowfullscreen', '');
+          // placeholder que será substituído pelo iframe do YT.Player
+          var mount = document.createElement('div');
+          mount.id = 'vsl-yt-frame';
+          mount.className = 'vsl__iframe';
+          vsl.appendChild(mount);
 
-          vsl.appendChild(iframe);
+          // overlay transparente que bloqueia qualquer clique de levar pro YouTube
+          // e funciona como toggle local de play/pause
+          var blocker = document.createElement('div');
+          blocker.className = 'vsl__click-blocker';
+          blocker.setAttribute('aria-hidden', 'true');
+          vsl.appendChild(blocker);
+
           vsl.classList.add('is-playing');
 
           loadYouTubeAPI().then(function () {
             ytPlayer = new YT.Player('vsl-yt-frame', {
+              videoId: id,
+              host: 'https://www.youtube-nocookie.com',
+              playerVars: {
+                autoplay: 1,
+                rel: 0,
+                modestbranding: 1,
+                playsinline: 1,
+                controls: 0,
+                disablekb: 1,
+                fs: 0,
+                iv_load_policy: 3,
+                cc_load_policy: 0
+              },
               events: {
-                onReady: function () { startProgressTracking(); },
+                onReady: function (e) {
+                  // garante o play imediato (clique do usuário já é o gesture)
+                  try { e.target.playVideo(); } catch (_) {}
+                  startProgressTracking();
+                },
                 onStateChange: function (e) {
                   if (e.data === YT.PlayerState.ENDED) unlock();
                 }
               }
             });
+          });
+
+          // toggle play/pause via overlay (sem nunca sair pro YouTube)
+          blocker.addEventListener('click', function () {
+            if (!ytPlayer || typeof ytPlayer.getPlayerState !== 'function') return;
+            var state = ytPlayer.getPlayerState();
+            if (state === 1 /* PLAYING */) {
+              ytPlayer.pauseVideo();
+            } else {
+              ytPlayer.playVideo();
+            }
           });
         }
 
@@ -1064,10 +1093,10 @@
       })();
     </script>
 
-    <script src="./script.js?v=2131236"></script>
+    <script src="./script.js?v=sdfsdf2131236"></script>
 
     <!-- GSAP + tarja de oferta -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="./tarja-oferta.js?v=2131231"></script>
+    <script src="./tarja-oferta.js?v=dsf3425r2131231"></script>
 </body>
 </html>

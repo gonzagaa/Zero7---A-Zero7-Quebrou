@@ -400,6 +400,17 @@
     z-index: 3;
   }
 
+  /* overlay invisível sobre o iframe: bloqueia clique que iria pro YouTube
+     e funciona como toggle play/pause local */
+  #home .vsl__click-blocker {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    background: transparent;
+    cursor: pointer;
+    border-radius: inherit;
+  }
+
   #home .vsl.is-playing .vsl__play,
   #home .vsl.is-playing .vsl__shade,
   #home .vsl.is-playing .vsl__thumb {
