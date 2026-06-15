@@ -25,32 +25,6 @@
     <link rel="stylesheet" href="./css/index.css?v=wqd324sgerg35wqdqwd2qwd">
     <link rel="stylesheet" href="./css/tarja-oferta.css?v=wefwef2131">
 
-    <style>
-      /* VSL lock: trava scroll e esconde botão CTA da home até 75% do vídeo */
-      html.is-vsl-locked,
-      body.is-vsl-locked {
-        overflow: hidden !important;
-        height: 100%;
-        touch-action: none;
-      }
-      #home .z7-btnx {
-        transition: opacity .5s ease, transform .5s ease, visibility .5s;
-      }
-      body.is-vsl-locked #home .z7-btnx {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transform: translateY(12px);
-      }
-      #home .z7-btnx.is-vsl-revealed {
-        animation: vslBtnReveal .7s ease both;
-      }
-      @keyframes vslBtnReveal {
-        from { opacity: 0; transform: translateY(12px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-    </style>
-
     <script type="text/javascript" async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/bfe861c8-ab4c-47c1-9b5d-67742fbce12f-loader.js" ></script>
 
 
@@ -944,54 +918,13 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <!-- VSL Hero — lazy load do YouTube + lock de scroll/CTA até 75% do vídeo -->
+    <!-- VSL Hero — lazy load do YouTube + bloqueador de cliques no iframe -->
     <script>
       (function () {
-        var UNLOCK_AT = 0.75; // 75% do tempo total do vídeo
         var vsl = document.querySelector('#home .vsl');
         if (!vsl) return;
 
-        var html = document.documentElement;
-        var body = document.body;
-        var ctaBtn = document.querySelector('#home .z7-btnx');
-
-        var unlocked = false;
         var ytPlayer = null;
-        var progressTimer = null;
-
-        function preventScroll(e) { e.preventDefault(); }
-        function preventScrollKeys(e) {
-          var keys = ['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' ','Spacebar'];
-          if (keys.indexOf(e.key) !== -1) e.preventDefault();
-        }
-
-        function lock() {
-          html.classList.add('is-vsl-locked');
-          body.classList.add('is-vsl-locked');
-          if (window.lenis && typeof window.lenis.stop === 'function') {
-            window.lenis.stop();
-          }
-          window.addEventListener('wheel', preventScroll, { passive: false });
-          window.addEventListener('touchmove', preventScroll, { passive: false });
-          window.addEventListener('keydown', preventScrollKeys, { passive: false });
-          // garante topo da página
-          window.scrollTo(0, 0);
-        }
-
-        function unlock() {
-          if (unlocked) return;
-          unlocked = true;
-          html.classList.remove('is-vsl-locked');
-          body.classList.remove('is-vsl-locked');
-          if (window.lenis && typeof window.lenis.start === 'function') {
-            window.lenis.start();
-          }
-          window.removeEventListener('wheel', preventScroll, { passive: false });
-          window.removeEventListener('touchmove', preventScroll, { passive: false });
-          window.removeEventListener('keydown', preventScrollKeys, { passive: false });
-          if (progressTimer) { clearInterval(progressTimer); progressTimer = null; }
-          if (ctaBtn) ctaBtn.classList.add('is-vsl-revealed');
-        }
 
         function loadYouTubeAPI() {
           return new Promise(function (resolve) {
@@ -1007,17 +940,6 @@
               resolve();
             };
           });
-        }
-
-        function startProgressTracking() {
-          progressTimer = setInterval(function () {
-            if (!ytPlayer || typeof ytPlayer.getDuration !== 'function') return;
-            var duration = ytPlayer.getDuration();
-            var current = ytPlayer.getCurrentTime();
-            if (duration > 0 && (current / duration) >= UNLOCK_AT) {
-              unlock();
-            }
-          }, 500);
         }
 
         function activate() {
@@ -1057,12 +979,7 @@
               },
               events: {
                 onReady: function (e) {
-                  // garante o play imediato (clique do usuário já é o gesture)
                   try { e.target.playVideo(); } catch (_) {}
-                  startProgressTracking();
-                },
-                onStateChange: function (e) {
-                  if (e.data === YT.PlayerState.ENDED) unlock();
                 }
               }
             });
@@ -1079,9 +996,6 @@
             }
           });
         }
-
-        // aplica lock imediatamente
-        lock();
 
         vsl.addEventListener('click', activate);
         vsl.addEventListener('keydown', function (e) {
