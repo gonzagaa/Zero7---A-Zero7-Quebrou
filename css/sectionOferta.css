@@ -408,6 +408,31 @@
   margin-top: 0;
 }
 
+#oferta .price small {
+   background:
+  radial-gradient(120% 140% at 15% 10%,
+    rgba(29,164,243,.18) 0%,
+    rgba(29,164,243,0) 42%),
+
+  radial-gradient(100% 120% at 85% 20%,
+    rgba(60,255,155,.16) 0%,
+    rgba(60,255,155,0) 45%),
+
+  linear-gradient(135deg,
+    #3b0710 0%,
+    #7a0f1c 32%,
+    #b8142b 62%,
+    #e93645 100%);
+    padding: .2rem .5rem;
+    color: #fff;
+    border-radius: .5rem;
+    
+    font-size: 1.8rem;
+    font-weight: 700;
+
+    margin-bottom: 2rem;
+}
+
 /* =========================
    DESKTOP
 ========================= */
@@ -416,6 +441,10 @@
   #oferta header h2 {
     max-width: 90rem;
     font-size: 4rem;
+  }
+
+  #oferta .price small {
+    font-size: 2rem;
   }
 
   #oferta .oferta-eyebrow {
